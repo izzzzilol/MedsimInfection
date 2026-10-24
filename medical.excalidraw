@@ -1,0 +1,93 @@
+flowchart TB
+    %% Заголовок и подзаголовок
+    Title["<b>Тренажёр для обучения работе<br>с инфекционными больными</b>"]
+    Subtitle["<i>Безопасная отработка алгоритмов инфекционного контроля, СИЗ и общения с пациентом<br>с обратной связью без риска заражения</i>"]
+    
+    Title -.-> Subtitle
+
+    %% Архитектура
+    subgraph Architecture ["Архитектура"]
+        direction LR
+        FE["<b>FE — Интерфейс</b>"]
+        BE["<b>BE — Серверная часть</b>"]
+        DB["<b>PostgreSQL — БД</b>"]
+    end
+
+    Subtitle --> Architecture
+
+    %% Таблица (разбитая на блоки)
+    subgraph Table ["Структура системы"]
+        direction TB
+
+        %% Блок 1 (верхний ряд архитектуры)
+        subgraph Row1 [" "]
+            direction LR
+            R1_1["Каталог сценариев; карточка<br>сценария; выбор уровня сложности"]
+            R1_2["API: GET /scenarios; GET<br>/scenarios/{id}; POST /attempts"]
+            R1_3["Scenario, ScenarioStep, AnswerOption"]
+        end
+
+        %% Блок 2
+        subgraph Row2 ["2. Контент курса"]
+            direction LR
+            R2_1["Текст клинической ситуации;<br>изображения СИЗ; видео-<br>инструкции"]
+            R2_2["Выдача материалов; загрузка<br>медиа; проверка доступности<br>файлов"]
+            R2_3["ScenarioMaterial: тип, название,<br>file_path, scenario_id"]
+        end
+
+        %% Блок 3
+        subgraph Row3 ["3. Динамический чат / помощник"]
+            direction LR
+            R3_1["Чат с виртуальным пациентом;<br>подсказки; отображение обратной<br>связи"]
+            R3_2["Обработка ответов; логика<br>ветвления; ИИ-помощник;<br>формирование фидбека"]
+            R3_3["ChatMessage, Feedback,<br>AttemptAnswer"]
+        end
+
+        %% Блок 4
+        subgraph Row4 ["4. Аналитика и прогресс"]
+            direction LR
+            R4_1["Дашборд студента; графики<br>ошибок; список пройденных<br>сценариев"]
+            R4_2["Сбор статистики; агрегация<br>результатов; формирование<br>отчетов"]
+            R4_3["Attempt, Statistics, ErrorLog"]
+        end
+
+        %% Блок 5
+        subgraph Row5 ["5. Календарь"]
+            direction LR
+            R5_1["Расписание занятий; даты<br>дедлайнов; напоминания"]
+            R5_2["API расписания; создание и<br>изменение событий; уведомления"]
+            R5_3["CalendarEvent: дата, тема, группа,<br>преподаватель"]
+        end
+    end
+
+    Architecture --> Table
+
+    %% Проблема и решение
+    subgraph Footer [" "]
+        direction TB
+        P["<b>Проблема:</b> Риск инфицирования студентов, недостаток практических навыков"]
+        S["<b>Предлагаемое решение:</b> Виртуальная симуляция клинических сценариев с обратной связью"]
+        T["<b>Тема проекта:</b> Тренажёр для обучения работе с инфекционными больными"]
+    end
+
+    Table --> Footer
+
+    %% Стили для красоты
+    classDef default fill:#f9f9f9,stroke:#333,stroke-width:1px,color:#000;
+    classDef title fill:#1e2b38,stroke:#4a6b8c,stroke-width:2px,color:#fff,font-size:18px;
+    classDef subtitle fill:#1e2b38,stroke:#4a6b8c,stroke-width:1px,color:#fff,font-style:italic;
+    classDef archFe fill:#2d4a35,stroke:#5c8a6b,stroke-width:2px,color:#fff;
+    classDef archBe fill:#4a3d1f,stroke:#8a6b2d,stroke-width:2px,color:#fff;
+    classDef archDb fill:#2a2a2a,stroke:#555,stroke-width:1px,color:#fff;
+    classDef headerRow fill:#1e2b38,stroke:#4a6b8c,stroke-width:1px,color:#fff,font-weight:bold;
+    classDef cell fill:#1a1a1a,stroke:#444,stroke-width:1px,color:#ddd,font-size:12px;
+    classDef footer fill:#1e2b38,stroke:#4a6b8c,stroke-width:1px,color:#fff,font-size:14px;
+
+    class Title title;
+    class Subtitle subtitle;
+    class FE archFe;
+    class BE archBe;
+    class DB archDb;
+    class Row2,Row3,Row4,Row5 headerRow;
+    class R1_1,R1_2,R1_3,R2_1,R2_2,R2_3,R3_1,R3_2,R3_3,R4_1,R4_2,R4_3,R5_1,R5_2,R5_3 cell;
+    class P,S,T footer;
